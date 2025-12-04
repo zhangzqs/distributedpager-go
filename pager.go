@@ -161,10 +161,8 @@ func (m *MergePager[T]) List(ctx context.Context, cursor Cursor, limit int) (Lis
 			}
 			buf.items = result.Items
 			buf.cursor = result.NextCursor
-			buf.exhausted = !result.HasMore && len(result.Items) == len(buf.items)
-			if !result.HasMore && result.NextCursor == "" {
-				buf.exhausted = true
-			}
+			// Source is exhausted when there's no more data available
+			buf.exhausted = !result.HasMore
 		}
 	}
 
