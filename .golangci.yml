@@ -122,7 +122,6 @@ issues:
       linters:
         - errcheck
         - godot
-        - govet
         - unused
     # Exclude misspell for comments about "cancelled" vs "canceled" (British vs American English)
     - path: \.go
