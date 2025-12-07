@@ -71,6 +71,14 @@ func (c *CachedDataSource[T]) ClearCache() {
 	c.cache = make(map[Cursor]*cacheEntry[T])
 }
 
+// CacheSize returns the current number of cached entries.
+// This is useful for testing and monitoring.
+func (c *CachedDataSource[T]) CacheSize() int {
+	c.mu.RLock()
+	defer c.mu.RUnlock()
+	return len(c.cache)
+}
+
 // EvictExpired removes expired entries from the cache.
 func (c *CachedDataSource[T]) EvictExpired() {
 	c.mu.Lock()
@@ -132,7 +140,7 @@ func (r *RateLimitedDataSource[T]) List(ctx context.Context, cursor Cursor, limi
 		}
 
 		// Calculate wait time for next token
-		waitTime := time.Duration((1-r.tokens)/r.refillRate*1000) * time.Millisecond
+		waitTime := time.Duration((1-r.tokens)/r.refillRate) * time.Second
 		r.mu.Unlock()
 
 		// Check context cancellation

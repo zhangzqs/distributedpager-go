@@ -5,6 +5,7 @@ import (
 	"errors"
 	"log"
 	"os"
+	"sync"
 	"sync/atomic"
 	"testing"
 	"time"
@@ -110,11 +111,8 @@ func TestCachedDataSourceEvictExpired(t *testing.T) {
 	// Evict expired entries
 	cached.EvictExpired()
 
-	// Check cache is empty
-	cached.mu.RLock()
-	cacheLen := len(cached.cache)
-	cached.mu.RUnlock()
-
+	// Check cache is empty using public method
+	cacheLen := cached.CacheSize()
 	if cacheLen != 0 {
 		t.Errorf("expected empty cache after eviction, got %d entries", cacheLen)
 	}
@@ -132,14 +130,13 @@ func TestCachedDataSourceDefaultTTL(t *testing.T) {
 }
 
 func TestRateLimitedDataSource(t *testing.T) {
+	var mu sync.Mutex
 	callTimes := make([]time.Time, 0)
-	var mu atomic.Value
-	mu.Store(&callTimes)
 
 	source := DataSourceFunc[int](func(ctx context.Context, cursor Cursor, limit int) (ListResult[int], error) {
-		now := time.Now()
-		times := mu.Load().(*[]time.Time)
-		*times = append(*times, now)
+		mu.Lock()
+		callTimes = append(callTimes, time.Now())
+		mu.Unlock()
 		return ListResult[int]{Items: []int{1, 2, 3}, HasMore: false}, nil
 	})
 
