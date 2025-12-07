@@ -238,6 +238,59 @@ func NewPrefetchDataSource[T any](source DataSource[T], prefetchLimit int) *Pref
 func NewBufferedDataSource[T any](source DataSource[T], bufferSize int) *BufferedDataSource[T]
 ```
 
+## 类似项目
+
+以下是一些其他语言中实现类似功能的库和框架：
+
+### Go
+
+- **[gonum/gonum](https://github.com/gonum/gonum)** - 科学计算库，包含多种排序和合并算法
+- **[emirpasic/gods](https://github.com/emirpasic/gods)** - Go数据结构库，提供各种排序算法和优先队列实现
+
+### Java
+
+- **[Guava Streams](https://github.com/google/guava)** - Google Guava库中的流处理工具，支持多个已排序集合的合并
+- **[Apache Commons Collections](https://commons.apache.org/proper/commons-collections/)** - 提供CollatingIterator用于合并多个有序迭代器
+- **[Spring Data](https://spring.io/projects/spring-data)** - 提供分页和排序抽象，支持多数据源的统一访问
+
+### Python
+
+- **[heapq.merge](https://docs.python.org/3/library/heapq.html#heapq.merge)** - Python标准库，用于合并多个已排序的输入流
+- **[more-itertools](https://github.com/more-itertools/more-itertools)** - 扩展的迭代器工具库，包含高级合并功能
+- **[pandas](https://pandas.pydata.org/)** - 数据分析库，支持多数据源的合并和排序操作
+
+### JavaScript/TypeScript
+
+- **[RxJS](https://rxjs.dev/)** - 响应式编程库，提供merge操作符用于合并多个Observable流
+- **[lodash](https://lodash.com/)** - 工具库，提供sortBy等排序和合并功能
+- **[stream-merger](https://github.com/dkozar/stream-merger)** - 专门用于合并多个Node.js流的库
+
+### Rust
+
+- **[itertools](https://github.com/rust-itertools/itertools)** - Rust迭代器扩展库，提供kmerge用于k路归并
+- **[merge-streams](https://crates.io/crates/merge-streams)** - 用于合并异步流的库
+
+### C++
+
+- **[std::merge](https://en.cppreference.com/w/cpp/algorithm/merge)** - C++标准库算法，合并两个已排序范围
+- **[Boost.Iterator](https://www.boost.org/doc/libs/release/libs/iterator/)** - 提供各种高级迭代器，包括合并迭代器
+
+### C#/.NET
+
+- **[LINQ OrderBy/ThenBy](https://docs.microsoft.com/en-us/dotnet/api/system.linq.enumerable.orderby)** - .NET LINQ提供的排序和合并功能
+- **[MoreLINQ](https://github.com/morelinq/MoreLINQ)** - LINQ扩展库，提供额外的查询操作
+
+### 分布式系统
+
+- **[Apache Kafka Streams](https://kafka.apache.org/documentation/streams/)** - 流处理库，支持多分区数据的合并和排序
+- **[Apache Flink](https://flink.apache.org/)** - 分布式流处理框架，支持多数据源的统一处理
+- **[Elasticsearch](https://www.elastic.co/elasticsearch/)** - 分布式搜索引擎，支持跨多个分片的排序和分页
+
+### 学术资源
+
+- **External Sorting** - 外部排序算法，用于处理超大规模数据的多路归并
+- **K-way Merge Algorithm** - K路归并算法的经典实现和优化
+
 ## 许可证
 
 MIT License
