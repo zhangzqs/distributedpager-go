@@ -537,7 +537,7 @@ func TestDecodeCursorInvalid(t *testing.T) {
 	}
 }
 
-// Benchmark tests
+// Benchmark tests.
 func BenchmarkMergePagerTwoSources(b *testing.B) {
 	source1 := createTestDataSource(0, 1000)
 	source2 := createTestDataSource(1000, 2000)
@@ -572,7 +572,7 @@ func BenchmarkMergePagerFiveSources(b *testing.B) {
 	}
 }
 
-// Example test to demonstrate usage
+// Example test to demonstrate usage.
 func ExampleMergePager() {
 	// Create two data sources
 	source1 := DataSourceFunc[int](func(ctx context.Context, cursor Cursor, limit int) (ListResult[int], error) {

@@ -1,7 +1,6 @@
 package distributedpager
 
 import (
-	"context"
 	"testing"
 )
 
@@ -74,38 +73,4 @@ func TestReverseComparator(t *testing.T) {
 	if cmp(1, 2) != -reverseCmp(1, 2) {
 		t.Error("Reverse comparator should negate the result")
 	}
-}
-
-// Helper function to create a simple in-memory data source
-func newSliceDataSource[T any](items []T) DataSource[T] {
-	return DataSourceFunc[T](func(ctx context.Context, cursor Cursor, limit int) (ListResult[T], error) {
-		// Parse cursor as index
-		startIdx := 0
-		if cursor != "" {
-			for i, item := range items {
-				_ = item
-				if i > 0 && cursor == string(rune('0'+i)) {
-					startIdx = i
-					break
-				}
-			}
-		}
-
-		endIdx := startIdx + limit
-		if endIdx > len(items) {
-			endIdx = len(items)
-		}
-
-		var nextCursor Cursor
-		hasMore := endIdx < len(items)
-		if hasMore {
-			nextCursor = string(rune('0' + endIdx))
-		}
-
-		return ListResult[T]{
-			Items:      items[startIdx:endIdx],
-			NextCursor: nextCursor,
-			HasMore:    hasMore,
-		}, nil
-	})
 }
