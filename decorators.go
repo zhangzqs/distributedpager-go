@@ -87,11 +87,11 @@ func (c *CachedDataSource[T]) EvictExpired() {
 type RateLimitedDataSource[T any] struct {
 	source DataSource[T]
 
-	mu            sync.Mutex
-	tokens        float64
-	maxTokens     float64
-	refillRate    float64 // tokens per second
-	lastRefillAt  time.Time
+	mu           sync.Mutex
+	tokens       float64
+	maxTokens    float64
+	refillRate   float64 // tokens per second
+	lastRefillAt time.Time
 }
 
 // NewRateLimitedDataSource creates a new RateLimitedDataSource.
@@ -118,7 +118,7 @@ func (r *RateLimitedDataSource[T]) List(ctx context.Context, cursor Cursor, limi
 	// Wait for token availability
 	for {
 		r.mu.Lock()
-		
+
 		// Refill tokens based on elapsed time
 		now := time.Now()
 		elapsed := now.Sub(r.lastRefillAt).Seconds()
@@ -224,7 +224,7 @@ func NewLoggingDataSource[T any](source DataSource[T], logger *log.Logger) *Logg
 // List retrieves items from the data source and logs the operation.
 func (l *LoggingDataSource[T]) List(ctx context.Context, cursor Cursor, limit int) (ListResult[T], error) {
 	l.logger.Printf("[LoggingDataSource] List called with cursor=%q, limit=%d", cursor, limit)
-	
+
 	start := time.Now()
 	result, err := l.source.List(ctx, cursor, limit)
 	elapsed := time.Since(start)
@@ -232,7 +232,7 @@ func (l *LoggingDataSource[T]) List(ctx context.Context, cursor Cursor, limit in
 	if err != nil {
 		l.logger.Printf("[LoggingDataSource] List failed after %v: %v", elapsed, err)
 	} else {
-		l.logger.Printf("[LoggingDataSource] List succeeded after %v: returned %d items, hasMore=%v", 
+		l.logger.Printf("[LoggingDataSource] List succeeded after %v: returned %d items, hasMore=%v",
 			elapsed, len(result.Items), result.HasMore)
 	}
 

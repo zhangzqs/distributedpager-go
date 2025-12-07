@@ -200,7 +200,7 @@ func TestRateLimitedDataSourceDefaultValues(t *testing.T) {
 
 func TestRetryDataSource(t *testing.T) {
 	callCount := atomic.Int32{}
-	
+
 	source := DataSourceFunc[int](func(ctx context.Context, cursor Cursor, limit int) (ListResult[int], error) {
 		count := callCount.Add(1)
 		if count < 3 {
@@ -240,7 +240,7 @@ func TestRetryDataSourceMaxRetriesExceeded(t *testing.T) {
 
 func TestRetryDataSourceContextCancellation(t *testing.T) {
 	callCount := atomic.Int32{}
-	
+
 	source := DataSourceFunc[int](func(ctx context.Context, cursor Cursor, limit int) (ListResult[int], error) {
 		callCount.Add(1)
 		return ListResult[int]{}, errors.New("error")
@@ -284,7 +284,7 @@ func TestLoggingDataSource(t *testing.T) {
 	// Create a custom logger that writes to a buffer
 	var buf []byte
 	logger := log.New(&testWriter{buf: &buf}, "[TEST] ", 0)
-	
+
 	logging := NewLoggingDataSource(source, logger)
 
 	_, err := logging.List(context.Background(), "test-cursor", 10)
